@@ -34,4 +34,8 @@ class PhpAss extends \lithium\template\Helper {
 		return $this->_instance->checkPassword( $password, $passwordHash );
 	}
 
+	public function getAdapter( ) {
+		return $this->_instance->getAdapter( );
+	}
+
 }
