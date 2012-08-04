@@ -17,7 +17,9 @@ To add li3_phpass module to your current lithium application, edit:
 Add the following line near the end of the file:
 
     Libraries::add('li3_phpass'); // default BCrypt
+
 or
+
     Libraries::add('li3_phpass',array(
         'adapter' => 'SHA512Crypt'
     ));
