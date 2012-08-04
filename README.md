@@ -2,7 +2,7 @@
 
 ## DESCRIPTION ##
 
-This repository contains a [Lithium](https://github.com/UnionOfRAD/lithium) helper that wraps [PHPassLib 3.x](https://github.com/rchouinard/phpass/tree/3.x) asset manager functionnality.
+This repository contains a [Lithium](https://github.com/UnionOfRAD/lithium) helper that wraps [PHPassLib 3.x](https://github.com/rchouinard/phpass/tree/3.x) functionnality.
 
 ## SETUP ##
 
