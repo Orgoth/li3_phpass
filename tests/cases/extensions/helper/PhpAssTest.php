@@ -12,35 +12,12 @@ use li3_phpass\extensions\helper\PhpAss;
 
 class PhpAssTest extends \lithium\test\Unit {
 
-	public function testDefaultInstanceUsesSha512Adapter() {
-		$hash = new PhpAss;
-		// Verify Hash instance
-		$this->assertTrue( $hash->getInstance() instanceof \Phpass\Hash );
-
-		// Verify adapter instance
-		$this->assertTrue( $hash->getAdapter() instanceof \Phpass\Hash\Adapter\Sha512Crypt );
-
-		$property = new \ReflectionProperty('Phpass\\Hash\\Adapter\\Sha512Crypt', '_iterationCount');
-		$property->setAccessible( TRUE );
-		$this->assertEqual(
-			65536, // Expected
-			$property->getValue( $hash->getAdapter() ) // Actual
-		);
-
-		$property = new \ReflectionProperty('Phpass\\Hash\\Adapter\\Sha512Crypt', '_identifier');
-		$property->setAccessible( TRUE );
-		$this->assertEqual(
-			6, // Expected
-			$property->getValue( $hash->getAdapter() ) // Actual
-		);
-
-
-	}
-
 	public function testHashAndCheckHash() {
 		$phpAss = new PhpAss;
-		$hash = $phpAss->hashPassword( 'testCase' );
+		$hash = $phpAss->hash( 'password' );
 
-		$this->assertTrue( $phpAss->checkPassword( 'testCase', $hash ) );
+		$this->assertTrue( $phpAss->verify( 'password', $hash ) );
+
+		$this->assertFalse( $phpAss->verify( 'wordpass', $hash ) );
 	}
 }

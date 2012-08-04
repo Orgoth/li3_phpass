@@ -8,35 +8,47 @@
 
 namespace li3_phpass;
 
-use \Phpass\Hash\Adapter\Sha512Crypt;
+use lithium\core\Libraries;
 
-class PhpAss {
+use PHPassLib\Hash\BCrypt;
+use PHPassLib\Hash\BSDiCrypt;
+use PHPassLib\Hash\DESCrypt;
+use PHPassLib\Hash\MD5Crypt;
+use PHPassLib\Hash\PBKDF2;
+use PHPassLib\Hash\Portable;
+use PHPassLib\Hash\SHA1Crypt;
+use PHPassLib\Hash\SHA256Crypt;
+use PHPassLib\Hash\SHA512Crypt;
 
-	/** @var $_instance \Phpass\Hash */
-	protected static $_instance = false;
+class PhpAss extends \lithium\core\StaticObject {
 
-	public static function init() {
-		if( !self::$_instance  ) {
-			$adapter = new Sha512Crypt(array (
-				'iterationCountLog2' => 16
-			));
-			self::$_instance = new \Phpass\Hash($adapter);
+	/** @var $_cfg array */
+	protected static $_cfg;
+
+	protected static $_adapter = 'PHPassLib\\Hash\\BCrypt';
+
+	public static function __init() {
+		self::$_cfg = Libraries::get( 'li3_phpass' );
+
+		if ( !empty( self::$_cfg[ 'adapter' ] ) ) {
+			self::$_adapter = 'PHPassLib\\Hash\\' . self::$_cfg[ 'adapter' ];
+		}
+
+		$adapter = self::$_adapter;
+		if ( !empty( self::$_cfg[ 'config' ] ) ) {
+			$adapter::genConfig( self::$_cfg[ 'config' ] );
+		} else {
+			$adapter::genConfig();
 		}
 	}
 
-	public static function getInstance() {
-		self::init();
-		return self::$_instance;
+	public static function hash( $password ) {
+		$adapter = self::$_adapter;
+		return $adapter::hash( $password );
 	}
 
-	public static function hashPassword( $password ) {
-		self::init();
-		return self::$_instance->hashPassword( $password );
+	public static function verify( $password, $passwordHash ) {
+		$adapter = self::$_adapter;
+		return $adapter::verify( $password, $passwordHash );
 	}
-
-	public static function checkPassword( $password, $passwordHash ) {
-		self::init();
-		return self::$_instance->checkPassword( $password, $passwordHash );
-	}
-
 }

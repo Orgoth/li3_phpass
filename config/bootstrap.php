@@ -9,6 +9,6 @@
 /**
  * Include PHPass class file
  */
-if (!class_exists('Phpass\\Loader', false)) {
-    require_once dirname(__DIR__) . '/vendors/Phpass.php';
+if (!class_exists('PHPassLib\\Loader', false)) {
+    require_once dirname(__DIR__) . '/vendors/PHPassLib.php';
 }
